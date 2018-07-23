@@ -13,6 +13,6 @@ jobs:
       - deploy:
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              ansible-playbook dev.yml
+              ansible-playbook deploy.yml
             fi
 
