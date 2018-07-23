@@ -6,6 +6,7 @@ jobs:
         environment:
           ANSIBLE_HOST_KEY_CHECKING: no
     steps:
+      - run: cat ~/.ssh/id_rsa.pub
       - run:
           name: Install Ansible
           command: pip install ansible
