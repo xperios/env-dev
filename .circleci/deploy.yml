@@ -1,0 +1,12 @@
+- name: deployment
+  hosts: all
+  sudo: true
+  
+  vars:
+    repository: https://github.com/nicgirault/cinelocal-api.git
+    path: /home/ubuntu/www
+    image: nicgirault/cinelocal-api
+    
+  tasks:
+    - name: Pull API container
+      shell: ls -alt
