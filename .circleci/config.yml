@@ -6,11 +6,9 @@ jobs:
         environment:
           ANSIBLE_HOST_KEY_CHECKING: no
     steps:
-      # Installation
       - run:
-          name: Install System Packages
-          command: pip install --upgrade pip && pip install ansible
-      # Dependencies
+          name: Install Ansible
+          command: pip install ansible
       - checkout
       - run: ansible-playbook ansible/deploy.yml -i ansible/hosts.ini
       
