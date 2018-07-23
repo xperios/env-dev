@@ -3,11 +3,16 @@ jobs:
   build:
     docker:
       - image: debian:stretch
+    dependencies:
+      - sudo apt-get install software-properties-common
+      - sudo apt-add-repository ppa:ansible/ansible -y
+      - sudo apt-get update
+      - sudo apt-get install ansible
     steps:
       - checkout
       - deploy:
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              ansible-playbook site.yml
+              ansible-playbook dev.yml
             fi
 
