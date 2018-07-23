@@ -1,6 +1,8 @@
 version: 2
 jobs:
   deploy:
+    docker:
+      - image: ansible/ansible:ubuntu1604
     steps:
       - run: cat ~/.ssh/id_rsa.pub
       - run: ssh ansible-dev@dom.xperios.pl -p 7002
