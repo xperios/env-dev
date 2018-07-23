@@ -13,3 +13,9 @@ jobs:
       # Dependencies
       - checkout
       - run: ansible-playbook ansible/deploy.yml -i ansible/hosts.ini
+      
+workflows:
+  version: 2
+  build_test_and_deploy:
+    jobs:
+      - deploy
