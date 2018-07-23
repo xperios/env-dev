@@ -1,17 +1,10 @@
 version: 2
 jobs:
   deploy:
-    docker:
-      - image: ansible/ansible:ubuntu1604
-        environment:
-          ANSIBLE_HOST_KEY_CHECKING: no
     steps:
       - run: cat ~/.ssh/id_rsa.pub
-      - run:
-          name: Install Ansible
-          command: pip install ansible
+      - run: ssh ansible-dev@dom.xperios.pl -p 7002
       - checkout
-      - run: ansible-playbook ansible/deploy.yml -i ansible/hosts.ini
       
 workflows:
   version: 2
