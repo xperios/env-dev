@@ -4,8 +4,9 @@ jobs:
     docker:
       - image: ansible/ansible:ubuntu1604
     steps:
-      - run: cat ~/.ssh/id_rsa.pub
-      - run: ssh-keyscan -H dom.xperios.pl >> ~/.ssh/known_hosts
+      - add_ssh_keys:
+        fingerprints:
+          - "b5:94:97:1b:5a:d4:ba:d1:54:24:b8:75:1c:91:02:21"
       - run: ssh ansible-dev@dom.xperios.pl -p 7002
       - checkout
       
