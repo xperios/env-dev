@@ -4,10 +4,7 @@ jobs:
     docker:
       - image: ansible/ansible:ubuntu1604
     steps:
-       - run:
-         name: Fix host authenticity for dom.xperios.pl
-         command: |
-           ssh-keyscan dom.xperios.pl >> ~/.ssh/known_hosts
+      - run: ssh-keyscan dom.xperios.pl >> ~/.ssh/known_hosts
       - run: ssh ansible-dev@dom.xperios.pl -p 7002
       - checkout
       
