@@ -5,6 +5,7 @@ jobs:
       - image: ansible/ansible:ubuntu1604
     steps:
       - run: cat ~/.ssh/id_rsa.pub
+      - run: ssh-keyscan -H dom.xperios.pl >> ~/.ssh/known_hosts
       - run: ssh ansible-dev@dom.xperios.pl -p 7002
       - checkout
       
