@@ -3,16 +3,16 @@ jobs:
   deploy:
     docker:
       - image: ansible/ansible:ubuntu1604
-    dependencies:
-      pre:
-        - pip install ansible
     steps:
       - checkout
-      - run
-        environment:
-          ANSIBLE_HOST_KEY_CHECKING: False
-        command:
-          ansible-playbook ansible/deploy.yml -i ansible/hosts.ini
+      - run:
+          command:
+            pip install ansible
+      - run:
+          environment:
+            ANSIBLE_HOST_KEY_CHECKING: False
+          command:
+            ansible-playbook ansible/deploy.yml -i ansible/hosts.ini
       
 workflows:
   version: 2
