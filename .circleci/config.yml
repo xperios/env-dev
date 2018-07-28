@@ -3,11 +3,17 @@ jobs:
   deploy:
     docker:
       - image: ansible/ansible:ubuntu1604
+    dependencies:
+      pre:
+        - pip install ansible
     steps:
-      - run: ssh-keyscan -p 7002 dom.xperios.pl >> ~/.ssh/known_hosts
-      - run: ssh ansible-dev@dom.xperios.pl -p 7002
-      - run: exit
       - checkout
+      # - run: ssh-keyscan -p 7002 dom.xperios.pl >> ~/.ssh/known_hosts
+      - run
+        environment:
+          ANSIBLE_HOST_KEY_CHECKING: False
+        command:
+          ansible-playbook ansible/deploy.yml -i ansible/hosts.ini
       
 workflows:
   version: 2
