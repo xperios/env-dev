@@ -12,7 +12,7 @@ jobs:
           environment:
             ANSIBLE_HOST_KEY_CHECKING: False
           command:
-            ansible-playbook ansible/deploy.yml -i ansible/hosts.ini
+            ansible-playbook -vvv ansible/deploy.yml -i ansible/hosts.ini
       
 workflows:
   version: 2
