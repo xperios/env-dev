@@ -1,6 +1,5 @@
 - name: deployment
   hosts: all
-  sudo: true
     
   tasks:
     - name: List dir
