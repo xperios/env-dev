@@ -1,8 +1,60 @@
-- name: deployment
+# PREREQUISITE: ansible-dev user
+#  sudo useradd ansible-dev -m -U
+#  sudo passwd ansible-dev
+#  sudo usermod -aG sudo ansible-dev
+
+#- name: create system user
+#  hosts: all
+#  become: true
+#
+#  tasks:
+#    - name: checking existing system user 
+#      shell: grep -q "sys-dev" /etc/passwd
+#      register: sys_user_checking
+#      ignore_errors: true
+#    - name: create system user 
+#      user:
+#        name: sys-dev
+#      when:
+#        sys_user_checking is failed
+#
+#- name: create app user
+#  hosts: all
+#  become: true
+#
+#  tasks:
+#    - name: checking existing app user 
+#      shell: grep -q "app-dev" /etc/passwd
+#      register: app_user_checking
+#      ignore_errors: true
+#    - name: create app user 
+#      user:
+#        name: app-dev
+#      when:
+#        app_user_checking is failed
+
+- name: consul deployment
   hosts: all
-  sudo: true
-    
+  become: true
+  
   tasks:
-    - name: List dir
-      shell: ls -alt
+    - name: checking if consul is installed
+      stat: path=/usr/local/bin/consul
+      register: consul
+    - block:
+      - name: download binary
+        get_url:
+          url: https://releases.hashicorp.com/consul/1.2.1/consul_1.2.1_linux_arm.zip
+          dest: ~/consul.zip
+      - name: unarchive binary
+        unarchive:
+          src: ~/consul.zip
+          dest: /usr/local/bin
+          remote_src: yes
+      - name: copy template
+        template: 
+          src: consul.service
+          dest: /etc/systemd/system/consul.service
+#      when: not consul.stat.exists
+    
 
