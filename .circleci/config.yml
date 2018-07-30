@@ -12,6 +12,8 @@ jobs:
           command:
             curl ${ANSIBLE_HOSTS_CURL} >> ansible/hosts.yml
       - run:
+          environment:
+            ANSIBLE_HOST_KEY_CHECKING: False
           command:
             ansible-playbook ansible/deploy.yml -i ansible/hosts.yml
       
