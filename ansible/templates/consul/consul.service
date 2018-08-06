@@ -1,0 +1,14 @@
+[Unit]
+Description=Consul service discovery agent
+Requires=network-online.target
+After=network.target
+
+[Service]
+ExecStartPre=/bin/bash -c "/bin/systemctl set-environment ip=$(/bin/hostname -I | awk '{print $1;}')"
+ExecStartPre=/bin/bash -c "echo IP=${ip}"
+ExecStart=/usr/local/bin/consul agent -config-dir=/etc/consul.d -bind=${ip}
+KillSignal=SIGINT
+TimeoutStopSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,11 @@
+{
+  "datacenter": "dc1",
+  "log_level": "INFO",
+  "enable_syslog": true,
+  "enable_debug": true,
+  "server": true,
+  "bootstrap_expect": 1,
+  "data_dir": "/var/consul",
+  "client_addr": "0.0.0.0",
+  "ui": true
+}

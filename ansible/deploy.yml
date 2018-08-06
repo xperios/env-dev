@@ -38,23 +38,56 @@
   become: true
   
   tasks:
-    - name: checking if consul is installed
+    - name: Checking if consul is installed
       stat: path=/usr/local/bin/consul
       register: consul
-    - block:
-      - name: download binary
-        get_url:
-          url: https://releases.hashicorp.com/consul/1.2.1/consul_1.2.1_linux_arm.zip
-          dest: ~/consul.zip
-      - name: unarchive binary
-        unarchive:
-          src: ~/consul.zip
-          dest: /usr/local/bin
-          remote_src: yes
-      - name: copy template
-        template: 
-          src: consul.service
-          dest: /etc/systemd/system/consul.service
+
+    - name: Set-up Consul
+      block:
+
+        - name: Install binary
+          block:
+
+          - name: Download binary
+            get_url:
+              url: https://releases.hashicorp.com/consul/1.2.1/consul_1.2.1_linux_arm.zip
+              dest: ~/consul.zip
+
+          - name: Unarchive binary
+            unarchive:
+              src: ~/consul.zip
+              dest: /usr/local/bin
+              remote_src: yes
+
+        - name: Configure service
+          block:
+          - name: Creates directory
+            file: path=/etc/consul.d state=directory
+
+          - name: Copy config template
+            template:
+              src: consul/consul.config.json
+              dest: /etc/consul.d/config.json
+
+        - name: Configure systemd service
+          block:
+
+          - name: copy template
+            template:
+              src: consul/consul.service
+              dest: /etc/systemd/system/consul.service
+
+          - name: reload service
+            systemd: daemon_reload=yes
+
+          - name: enable service
+            systemd:
+              name: consul
+              enabled: yes
+
+          - name: Make sure a service is running
+            systemd: state=started name=consul
+
 #      when: not consul.stat.exists
     
 
